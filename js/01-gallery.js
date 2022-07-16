@@ -3,8 +3,6 @@ import { galleryItems } from './gallery-items.js';
 
 // console.log(galleryItems);
 
-// console.log(createGalleryMarkup(galleryItems));
-
 const galleryContainer = document.querySelector('.gallery');
 
 const galleryMarkup = createGalleryMarkup(galleryItems);
@@ -12,9 +10,6 @@ const galleryMarkup = createGalleryMarkup(galleryItems);
 galleryContainer.insertAdjacentHTML('afterbegin', galleryMarkup);
 
 galleryContainer.addEventListener('click', onGalleryItemsClick);
-
-document.addEventListener('keydown', closeModal);
-// console.log(galleryClickItem);
 
 function createGalleryMarkup(galleryItems) {
   return galleryItems
@@ -45,20 +40,16 @@ function onGalleryItemsClick(event) {
 
   if (!event.target.classList.contains('gallery__image')) {
     return;
-  } else {
-    const instance = basicLightbox.create(
-      `<div class="modal"><img src="${event.target.dataset.source}"/></div>`,
-    );
-
-    return instance.show();
   }
+  const instance = basicLightbox.create(
+    `<img src="${event.target.dataset.source}"/>`,
+  );
 
-  //   console.log(event.target.dataset.source);
-}
+  instance.show();
 
-function closeModal(event) {
-  if (event.code === 'Escape') {
-    instance.close();
-  }
-  console.log(event.code);
+  document.addEventListener('keydown', event => {
+    if (event.code === 'Escape') {
+      instance.close();
+    }
+  });
 }
